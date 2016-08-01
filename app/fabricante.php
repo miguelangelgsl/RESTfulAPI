@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fabricante extends Model{
 	
-	protected $table='fabricante';
+	protected $table='fabricantes';
 	protected $primaryKey ='id';
 	protected $fillable = array('nombre','telefono');
 	public $timestamps = true;
@@ -12,7 +12,7 @@ class Fabricante extends Model{
 
 	public function vehiculos(){
 
-		$this->hasMany('Vehiculo')
+		$this->hasMany('Vehiculo');
 
 	}
 }
