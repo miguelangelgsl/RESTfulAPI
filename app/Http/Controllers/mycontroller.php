@@ -8,7 +8,7 @@ class MyController extends Controller{
 
 		$modelo=new Prueba();
 
-		$saludo= $modelo->saludar("Miguel");
+		$saludo= $modelo->saludar("DPC");
 
 		return view('prueba.index',['saludo'=>$saludo]);
 	}

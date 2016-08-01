@@ -11,6 +11,6 @@
 |
 */
 //Route::get('/','VehiculoController@showAll');
-Route::get('/','WelcomeController@index');
+Route::get('/','MyController@index');
 Route::resource('fabricantes', 'FabricanteController');
 Route::resource('fabricantes.vehiculos', 'VehiculoController');
