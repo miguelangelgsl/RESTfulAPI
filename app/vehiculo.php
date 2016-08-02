@@ -10,9 +10,11 @@ class Vehiculo extends Model{
 	protected $fillable = array('color','cilindraje','potencia','peso','fabricante_id');
 	public $timestamps = true;
 
+	protected $hidden = ['created_at', 'updated_at'];
+
 
 	public function fabricante(){
-		$this->belongsTo('Fabricante');
+		return $this->belongsTo('App\Fabricante');
 	}
 }
 
