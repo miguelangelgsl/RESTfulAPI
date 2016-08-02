@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use App\Fabricante;
+
 class FabricanteController extends Controller {
 
 	/**
@@ -14,7 +16,7 @@ class FabricanteController extends Controller {
 	 */
 	public function index()
 	{
-		return 'Mostrando todos los fabricantes';
+		return Fabricante::all();
 	}
 
 	/**
