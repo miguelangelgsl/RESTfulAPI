@@ -9,6 +9,8 @@ class Fabricante extends Model{
 	protected $fillable = array('nombre','telefono');
 	public $timestamps = true;
 
+	protected $hidden = ['created_at', 'updated_at'];
+
 
 	public function vehiculos(){
 
