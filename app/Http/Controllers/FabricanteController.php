@@ -9,6 +9,11 @@ use App\Fabricante;
 
 class FabricanteController extends Controller {
 
+
+	public function __construct(){
+		$this->middleware('auth.basic',['only' => ['store','update','destroy']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -35,9 +40,15 @@ class FabricanteController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+		if(!$request->input('nombre') || !$request->input('telefono')) 
+			return response()->json(['mensaje' => 'No se recibieron los valores','codigo' => 422],422);
+
+		Fabricante::create($request->all());
+		return response()->json(['mensaje' => 'Fabricante Insertado','codigo' => 201],201);	
+		
+
 	}
 
 	/**
