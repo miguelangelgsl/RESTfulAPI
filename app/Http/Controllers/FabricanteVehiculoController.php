@@ -112,7 +112,7 @@ class FabricanteVehiculoController extends Controller {
 		if(!$fabricante)
 		return response()->json(['mensaje' => 'No existe el Fabricante con id:'.$idFabricante,'codigo' => 404],404);
 
-		$vehiculo = Vehiculo::find($idVehiculo);
+		$vehiculo=$fabricante->vehiculos()->find($idVehiculo);
 		if(!$vehiculo)
 		return response()->json(['mensaje' => 'No existe el Vehiculo con id:'.$idVehiculo.' asociado al Fabricante con id:'.$idFabricante,'codigo' => 404],404);
 
@@ -174,9 +174,19 @@ class FabricanteVehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($idFabricante,$idVehiculo)
 	{
-		//
+		$fabricante = Fabricante::find($idFabricante);
+		if(!$fabricante)
+		return response()->json(['mensaje' => 'No existe el Fabricante con id:'.$idFabricante,'codigo' => 404],404);
+
+		$vehiculo=$fabricante->vehiculos()->find($idVehiculo);
+		if(!$vehiculo)
+		return response()->json(['mensaje' => 'No existe el Vehiculo con id:'.$idVehiculo.' asociado al Fabricante con id:'.$idFabricante,'codigo' => 404],404);
+
+		$vehiculo->delete();
+		return response()->json(['mensaje' => 'Vehiculo Eliminado','codigo' => 200],200);
+
 	}
 
 }
