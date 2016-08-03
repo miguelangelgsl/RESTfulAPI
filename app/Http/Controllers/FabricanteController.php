@@ -86,9 +86,50 @@ class FabricanteController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request,$id)
 	{
-		//
+		$metodo = $request->method();
+		$fabricante = Fabricante::find($id);
+
+		if(!$fabricante)
+		return response()->json(['mensaje' => 'No existe el Fabricante con id:'.$id,'codigo' => 404],404);
+
+		$nombre = $request->input('nombre');
+		$telefono=$request->input('telefono');
+
+		$existe_nombre=$nombre!= null && $nombre!='';
+		$existe_telefono= $telefono!=null && $telefono!='';
+
+		if($metodo=='PATCH'){	 
+			
+			if($existe_nombre)
+			$fabricante->nombre = $nombre;
+
+			if($existe_telefono)
+			$fabricante->telefono = $telefono;
+
+			if($existe_nombre || $existe_telefono){
+			$fabricante->save();
+			return response()->json(['mensaje' => 'Fabricante Editado','codigo' => 201],201);
+			}else{
+				return response()->json(['mensaje' => 'No se recibieron parametros','codigo' => 404],404);
+			}	
+		}
+
+		if($metodo == 'PUT'){	
+			
+			if($existe_nombre && $existe_telefono){
+			$fabricante->nombre = $nombre;
+			$fabricante->telefono = $telefono;
+			$fabricante->save();
+			return response()->json(['mensaje' => 'Fabricante Editado','codigo' => 201],201);	
+			}else{
+				return response()->json(['mensaje' => 'No se recibieron todos los parametros','codigo' => 422],422);
+			}
+
+			
+		}
+
 	}
 
 	/**

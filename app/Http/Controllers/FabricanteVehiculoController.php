@@ -49,15 +49,7 @@ class FabricanteVehiculoController extends Controller {
 	 */
 	public function store(Request $request,$id)
 	{
-			
-// serie
-// color
-// cilindraje
-// 
-// peso
-// fabricante_id
-// created_at
-// updated_at
+
 
 		if( !$request->input('color') || 
 			!$request->input('cilindraje') || 
