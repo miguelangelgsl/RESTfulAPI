@@ -75,9 +75,15 @@ class FabricanteVehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($idFabricante,$idVehiculo)
-	{
-		return 'Mostrando el vehiculo con id: '.$idVehiculo.' del Fabricante con id:'.$idFabricante;
+	public function show($idFabricante,$idVehiculo){
+		$vehiculo = Vehiculo::find($idVehiculo);
+
+		if (!$vehiculo) {
+			return response()->json(['mensaje' => 'No se encuentra este vehiculo',
+									  'codigo' => 404],404);
+		}
+
+		return response()->json(['datos' => $vehiculo],200);
 	}
 
 	/**
@@ -97,9 +103,69 @@ class FabricanteVehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($idFabricante,$idVehiculo)
+	public function update(Request $request,$idFabricante,$idVehiculo)
 	{
-		return 'Update el vehiculo con id: '.$idVehiculo.' del Fabricante con id:'.$idFabricante;
+				
+		$metodo = $request->method();
+		$fabricante = Fabricante::find($idFabricante);
+
+		if(!$fabricante)
+		return response()->json(['mensaje' => 'No existe el Fabricante con id:'.$idFabricante,'codigo' => 404],404);
+
+		$vehiculo = Vehiculo::find($idVehiculo);
+		if(!$vehiculo)
+		return response()->json(['mensaje' => 'No existe el Vehiculo con id:'.$idVehiculo.' asociado al Fabricante con id:'.$idFabricante,'codigo' => 404],404);
+
+
+		$color = $request->input('color');
+		$cilindraje=$request->input('cilindraje');
+		$potencia=$request->input('potencia');
+		$peso=$request->input('peso');
+
+
+		$existe_color=$color!= null && $color!='';
+		$existe_cilindraje= $cilindraje!=null && $cilindraje!='';
+		$existe_potencia= $potencia!=null && $potencia!='';
+		$existe_peso= $peso!=null && $peso!='';
+
+		if($metodo=='PATCH'){	 
+			
+			if($existe_color)
+			$vehiculo->color = $color;
+
+			if($existe_cilindraje)
+			$vehiculo->cilindraje = $cilindraje;
+
+			if($existe_potencia)
+			$vehiculo->potencia = $potencia;
+
+			if($existe_peso)
+			$vehiculo->peso = $peso;
+
+			if($existe_color || $existe_cilindraje || $existe_potencia || $existe_peso){
+			$vehiculo->save();
+			return response()->json(['mensaje' => 'Vehiculo Editado','codigo' => 201],201);
+			}else{
+				return response()->json(['mensaje' => 'No se recibieron parametros','codigo' => 200],200);
+			}	
+		}
+
+		if($metodo == 'PUT'){	
+			
+			if($existe_color && $existe_cilindraje && $existe_potencia && $existe_peso){
+
+				$vehiculo->color = $color;
+				$vehiculo->cilindraje = $cilindraje;
+				$vehiculo->potencia = $potencia;
+				$vehiculo->peso = $peso;
+
+
+			$vehiculo->save();
+			return response()->json(['mensaje' => 'Vehiculo Editado','codigo' => 201],201);
+			}else{
+				return response()->json(['mensaje' => 'No se recibieron todos los parametros','codigo' => 422],422);
+			}
+		}
 	}
 
 	/**
